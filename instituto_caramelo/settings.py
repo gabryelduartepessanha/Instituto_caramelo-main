@@ -134,3 +134,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gabryellol123@gmail.com'
 EMAIL_HOST_PASSWORD = 'knfe dtzs epso clvg'
 DEFAULT_FROM_EMAIL = 'no-reply@institutocaramelo.com'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
