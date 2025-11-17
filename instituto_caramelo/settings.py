@@ -46,19 +46,28 @@ DEBUG = get_bool_from_env('DEBUG', default=False)
 
 # 3. ALLOWED_HOSTS: Configuração para Render e Local
 if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    # Ambiente de desenvolvimento
+    ALLOWED_HOSTS = [
+        "127.0.0.1",
+        "localhost",
+    ]
 else:
-    # Hosts para produção (Render)
-    RENDER_HOST = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    # Ambiente de produção (Render)
+    RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 
     if RENDER_HOST:
-        # Permite o subdomínio gratuito do Render
+        # Render fornece automaticamente o hostname correto
         ALLOWED_HOSTS = [RENDER_HOST]
     else:
-        # Fallback de segurança
-        ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS', '')
-        ALLOWED_HOSTS = ALLOWED_HOSTS_ENV.split(
-            ',') if ALLOWED_HOSTS_ENV else []
+        # Fallback manual caso a variável não exista
+        ALLOWED_HOSTS = [
+            "instituto-caramelo-main.onrender.com",
+        ]
+
+        # Ou, se o usuário quiser sobrescrever manualmente:
+        ALLOWED_HOSTS_ENV = os.environ.get("ALLOWED_HOSTS", "")
+        if ALLOWED_HOSTS_ENV:
+            ALLOWED_HOSTS = ALLOWED_HOSTS_ENV.split(",")
 
 
 # Application definition
