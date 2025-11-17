@@ -137,8 +137,20 @@ form {
 }
 
 input[type="text"], 
-input[type="email"],
+/*input[type="email"]*/
 textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--fonte-principal);
+    font-size: 16px;
+    color: var(--preto-texto);
+    background-color: var(--branco-fundo); 
+}
+
+#email{
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
