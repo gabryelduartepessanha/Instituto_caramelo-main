@@ -12,10 +12,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
-from dotenv import load_dotenv
 
-load_dotenv()
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 
 def get_bool_from_env(name, default=False):
@@ -92,19 +99,19 @@ WSGI_APPLICATION = 'instituto_caramelo.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # --- CONFIGURAÇÃO DO BANCO DE DADOS POSTGRESQL/RENDER ---
-DATABASES = {
-    # dj_database_url.config lê a variável de ambiente DATABASE_URL.
-    # No Render, esta variável é fornecida pelo serviço de banco de dados.
-    # Localmente, ela será lida do arquivo .env.
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
-}
-
-if not DATABASES['default']:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+database_url = os.environ.get('DATABASE_URL')
+# Usa dj_database_url apenas se a URL indicar PostgreSQL
+if database_url and ('postgres' in database_url or 'postgresql' in database_url) and dj_database_url:
+    DATABASES = {
+        'default': dj_database_url.config(default=database_url)
+    }
+else:
+    # Por padrão, usa SQLite localmente
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 # -----------------------------------------------------
 
