@@ -6,4 +6,7 @@ class CadastroConfig(AppConfig):
     name = 'cadastro'
 
     def ready(self):
-        import cadastro.signals
+        try:
+            import cadastro.signals
+        except Exception as e:
+            print(f"Erro ao importar signals: {e}")

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from cadastro.models import ONG, Parceiro
 
 
@@ -9,11 +9,11 @@ def registrar_ong(request):
         nome = request.POST.get("nome")
         cidade = request.POST.get("cidade")
         representante = request.POST.get("representante")
-        cnpj = request.POST.get("CNPJ")
+        cnpj = request.POST.get("cnpj")
         motivacao = request.POST.get("motivacao")
         email = request.POST.get("email")
 
-        ong = ONG.objects.create(
+        ONG.objects.create(
             nome=nome,
             cidade=cidade,
             representante=representante,
@@ -22,7 +22,6 @@ def registrar_ong(request):
             email=email,
             status="pendente"
         )
-        ong.save()
 
         mensagem = "Cadastrado com sucesso! Aguarde o resultado."
 

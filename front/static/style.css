@@ -336,3 +336,211 @@ textarea {
 .voltar-topo-container a:hover {
     text-decoration: underline;
 }
+
+/* ---------------------------------------------------- */
+/* RESPONSIVIDADE */
+/* ---------------------------------------------------- */
+
+/* Tablets e Telas Pequenas (até 768px) */
+@media (max-width: 768px) {
+    .cabecalho {
+        flex-direction: column;
+        padding: 15px 20px;
+        gap: 20px;
+    }
+
+    .logo img {
+        height: 80px;
+    }
+
+    .menu-principal {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .menu-principal ul {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .menu-principal li a {
+        width: 100%;
+        min-width: auto;
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .social-icons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .social-icons img {
+        height: 30px;
+    }
+
+    .formulario-container {
+        width: 90%;
+        max-width: 500px;
+        padding: 30px 20px;
+    }
+
+    .formulario-container h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    input[type="text"], 
+    textarea {
+        padding: 12px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    #email {
+        padding: 12px !important;
+        margin-bottom: 15px !important;
+        font-size: 14px !important;
+    }
+
+    .enviar {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .sobre-container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+
+    .sobre-texto h2 {
+        font-size: 1.8rem;
+    }
+
+    .sobre-texto p {
+        font-size: 0.9rem;
+    }
+
+    .lista-resgates {
+        gap: 10px;
+    }
+
+    .botao-resgate {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .titulo-resgates {
+        font-size: 24px;
+    }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 480px) {
+    .cabecalho {
+        padding: 10px 15px;
+    }
+
+    .logo img {
+        height: 60px;
+    }
+
+    .menu-principal li a {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .formulario-container {
+        width: 95%;
+        padding: 20px 15px;
+        border-radius: 6px;
+    }
+
+    .formulario-container h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    input[type="text"], 
+    textarea {
+        padding: 10px;
+        margin-bottom: 12px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    #email {
+        padding: 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    textarea {
+        height: 80px;
+    }
+
+    .enviar {
+        padding: 10px;
+        font-size: 14px;
+        margin-top: 8px;
+    }
+
+    .sobre-instituto {
+        padding: 40px 15px;
+    }
+
+    .sobre-container {
+        gap: 20px;
+        padding: 0;
+    }
+
+    .sobre-texto h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .sobre-texto p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .sobre-imagem img {
+        border-radius: 15px;
+    }
+
+    .lista-resgates {
+        gap: 8px;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .botao-resgate {
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: 15px;
+    }
+
+    .titulo-resgates {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .resgates-marcantes {
+        padding: 40px 0 60px 0;
+    }
+
+    .voltar-topo-container {
+        padding: 20px 0;
+    }
+
+    .voltar-topo-container a {
+        font-size: 0.9rem;
+    }
+}
