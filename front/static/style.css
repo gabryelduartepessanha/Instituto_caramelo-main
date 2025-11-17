@@ -148,17 +148,6 @@ textarea {
     font-size: 16px;
     color: var(--preto-texto);
     background-color: var(--branco-fundo); 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-input[type="email"]:focus,
-input[type="email"]:valid,
-input[type="email"]:invalid {
-    border: none;
-    outline: none;
-    box-shadow: none;
 }
 
 textarea {
