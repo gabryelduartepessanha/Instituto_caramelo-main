@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+from dotenv import load_dotenv
+
+# Carrega as variáveis do arquivo .env (apenas para desenvolvimento local)
+load_dotenv()
+
+# Função auxiliar para ler booleanos de variáveis de ambientepip show python-dotenv
+
+
+def get_bool_from_env(name, default=False):
+    return os.environ.get(name, str(default)).lower() in ('true', '1', 't')
+# -----------------------------------------------
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +34,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-57p4eo@w8o_=t(%girz-g*=ped$^+v&w+(%$1)wy2k-@3d*^8='
+# 1. SECRET_KEY: Lê do ambiente ou usa a chave forte gerada.
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    '2b%2+zP!&w3N^hXy@m-q7sJ$fL9tA0vG#r4E5D8C1B6I(oU)p=vZa_cK0Lw2T'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# 2. DEBUG: Controlado pela variável de ambiente DEBUG (default=False em produção).
+DEBUG = get_bool_from_env('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+# 3. ALLOWED_HOSTS: Configuração para Render e Local
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+else:
+    # Hosts para produção (Render)
+    RENDER_HOST = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
+    if RENDER_HOST:
+        # Permite o subdomínio gratuito do Render
+        ALLOWED_HOSTS = [RENDER_HOST]
+    else:
+        # Fallback de segurança
+        ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS', '')
+        ALLOWED_HOSTS = ALLOWED_HOSTS_ENV.split(
+            ',') if ALLOWED_HOSTS_ENV else []
 
 
 # Application definition
@@ -45,6 +77,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Adicionado Whitenoise para servir arquivos estáticos em produção (Render)
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,12 +110,24 @@ WSGI_APPLICATION = 'instituto_caramelo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# --- CONFIGURAÇÃO DO BANCO DE DADOS POSTGRESQL/RENDER ---
 DATABASES = {
-    'default': {
+    # dj_database_url.config lê a variável de ambiente DATABASE_URL.
+    # No Render, esta variável é fornecida pelo serviço de banco de dados.
+    # Localmente, ela será lida do arquivo .env.
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
+}
+
+# Fallback: Se a DATABASE_URL não for encontrada, retorna ao SQLite para testes de unidade
+# ou se o .env não for carregado corretamente, embora o ideal seja garantir a DATABASE_URL.
+if not DATABASES['default']:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+# -----------------------------------------------------
 
 
 # Password validation
@@ -123,6 +169,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'front', 'static'),
     os.path.join(BASE_DIR, 'front', 'assets'),
 ]
+
+# Configuração de arquivos estáticos para Produção (WhiteNoise)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -134,5 +186,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gabryellol123@gmail.com'
 EMAIL_HOST_PASSWORD = 'knfe dtzs epso clvg'
 DEFAULT_FROM_EMAIL = 'no-reply@institutocaramelo.com'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
