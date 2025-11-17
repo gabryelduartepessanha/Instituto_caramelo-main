@@ -150,6 +150,18 @@ textarea {
     background-color: var(--branco-fundo); 
 }
 
+#email{
+    width: 100%;
+    padding: 15px !important;
+    margin-bottom: 20px;
+    border: none !important;
+    border-radius: 4px !important;
+    font-family: var(--fonte-principal) !important;
+    font-size: 16px;
+    color: var(--preto-texto) !important;
+    background-color: var(--branco-fundo) !important; 
+}
+
 textarea {
     resize: none;
     height: 100px;
@@ -423,6 +435,43 @@ textarea {
     .titulo-resgates {
         font-size: 24px;
     }
+}
+
+/* Strong override for email input to fix hosting CSS conflicts */
+.formulario-container input[type="email"],
+.formulario-container input[name="email"] {
+    display: block !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin-bottom: 20px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-family: var(--fonte-principal) !important;
+    font-size: 16px !important;
+    color: var(--preto-texto) !important;
+    background-color: var(--branco-fundo) !important;
+    box-sizing: border-box !important;
+}
+
+/* Also ensure any input inside formulario-container grows to full width */
+.formulario-container input,
+.formulario-container textarea {
+    box-sizing: border-box !important;
+}
+
+/* Extra-specific class to force full width for the hosted site */
+.full-width-input {
+    display: block !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin-bottom: 20px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-family: var(--fonte-principal) !important;
+    font-size: 16px !important;
+    color: var(--preto-texto) !important;
+    background-color: var(--branco-fundo) !important;
+    box-sizing: border-box !important;
 }
 
 /* Celulares (até 480px) */
