@@ -32,25 +32,13 @@ SECRET_KEY = os.environ.get(
 DEBUG = get_bool_from_env('DEBUG', default=False)
 
 if DEBUG:
-    # Ambiente de desenvolvimento
-    ALLOWED_HOSTS = [
-        "127.0.0.1",
-        "localhost",
-    ]
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    # Ambiente de produção (Render)
-    RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-
-    if RENDER_HOST:
-        # Render fornece automaticamente o hostname correto
-        ALLOWED_HOSTS = [RENDER_HOST]
+    render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+    if render_host:
+        ALLOWED_HOSTS = [render_host]
     else:
-        # Fallback manual caso a variável não exista
-        ALLOWED_HOSTS = [
-            "instituto-caramelo-main.onrender.com",
-        ]
-
-        # Ou, se o usuário quiser sobrescrever manualmente:
+        ALLOWED_HOSTS = ["*"]
         ALLOWED_HOSTS_ENV = os.environ.get("ALLOWED_HOSTS", "")
         if ALLOWED_HOSTS_ENV:
             ALLOWED_HOSTS = ALLOWED_HOSTS_ENV.split(",")
