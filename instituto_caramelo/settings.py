@@ -15,36 +15,22 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env (apenas para desenvolvimento local)
 load_dotenv()
-
-# Função auxiliar para ler booleanos de variáveis de ambientepip show python-dotenv
 
 
 def get_bool_from_env(name, default=False):
     return os.environ.get(name, str(default)).lower() in ('true', '1', 't')
-# -----------------------------------------------
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# 1. SECRET_KEY: Lê do ambiente ou usa a chave forte gerada.
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     '2b%2+zP!&w3N^hXy@m-q7sJ$fL9tA0vG#r4E5D8C1B6I(oU)p=vZa_cK0Lw2T'
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# 2. DEBUG: Controlado pela variável de ambiente DEBUG (default=False em produção).
 DEBUG = get_bool_from_env('DEBUG', default=False)
 
-# 3. ALLOWED_HOSTS: Configuração para Render e Local
 if DEBUG:
     # Ambiente de desenvolvimento
     ALLOWED_HOSTS = [
@@ -129,8 +115,6 @@ DATABASES = {
     )
 }
 
-# Fallback: Se a DATABASE_URL não for encontrada, retorna ao SQLite para testes de unidade
-# ou se o .env não for carregado corretamente, embora o ideal seja garantir a DATABASE_URL.
 if not DATABASES['default']:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
