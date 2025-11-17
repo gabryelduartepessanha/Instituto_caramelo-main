@@ -11,31 +11,39 @@ def cadastro_sucesso(request):
 
 
 def registrar_ong(request):
+    mensagem = None  # Variável para enviar feedback ao template
+
     if request.method == "POST":
-        nome = request.POST.get("nome")
-        email = request.POST.get("email")
-        cidade = request.POST.get("cidade")
-        representante = request.POST.get("representante")
-        cnpj = request.POST.get("cnpj")
-        motivacao = request.POST.get("motivacao")
+        # Pegando dados do formulário
+        nome = request.POST.get('nome')
+        cidade = request.POST.get('cidade')
+        representante = request.POST.get('representante')
+        email = request.POST.get('email')
+        cnpj = request.POST.get('cnpj')  # Agora minúsculo, igual ao model
+        motivacao = request.POST.get('motivacao')
 
-        ONG.objects.create(
-            nome=nome,
-            cidade=cidade,
-            email=email,
-            representante=representante,
-            cnpj=cnpj,
-            motivacao=motivacao,
-        )
+        # Verificando se todos os campos obrigatórios foram preenchidos
+        if not nome or not cnpj:
+            mensagem = "Nome e CNPJ são obrigatórios."
+        else:
+            # Tentando criar a ONG no banco
+            try:
+                ong = ONG.objects.create(
+                    nome=nome,
+                    cidade=cidade,
+                    representante=representante,
+                    email=email,
+                    cnpj=cnpj,
+                    motivacao=motivacao
+                )
+                mensagem = "ONG cadastrada com sucesso!"
+                # Limpar campos após cadastro
+                return render(request, 'seu_template.html', {'mensagem': mensagem})
+            except Exception as e:
+                # Se já existir o CNPJ ou outro erro
+                mensagem = f"Erro ao cadastrar ONG: {str(e)}"
 
-        return redirect("cadastro_sucesso")
-
-    return redirect("index")
-
-
-def ongs_aprovadas(request):
-    aprovadas = ONG.objects.filter(status="aprovada")
-    return render(request, "ongs_aprovadas.html", {"ongs": aprovadas})
+    return render(request, 'seu_template.html', {'mensagem': mensagem})
 
 
 def ongs_rejeitadas(request):

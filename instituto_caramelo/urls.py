@@ -8,5 +8,4 @@ import os
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('front.urls')),
-    path('cadastro/', include('cadastro.urls')),
 ]
